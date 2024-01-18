@@ -436,51 +436,51 @@ void displayAccountDetails(struct Account *database, int numAccounts) {
     }
 }
 
-// void depositAmount(struct Account *database, int numAccounts) {
-//     int accountNumber, depositAmount, accountIndex = -1;
-//     printf("Account number: ");
-//     scanf("%d", &accountNumber);
+void depositAmount(struct Account *database, int numAccounts) {
+    int accountNumber, depositAmount, accountIndex = -1;
+    printf("Account number: ");
+    scanf("%d", &accountNumber);
     
-//     printf("Deposit amount: ");
-//     scanf("%d", &depositAmount);
+    printf("Deposit amount: ");
+    scanf("%d", &depositAmount);
 
-//     for (int i = 0; i < numAccounts; i++) {
-//         printf("%d\n", database[i].accountNumber);
-//         if (database[i].accountNumber == accountNumber) {
-//             accountIndex = i;
-//             break;
-//         }
-//     }
+    for (int i = 0; i < numAccounts; i++) {
+        printf("%d\n", database[i].accountNumber);
+        if (database[i].accountNumber == accountNumber) {
+            accountIndex = i;
+            break;
+        }
+    }
 
-//     if (accountIndex != -1) {
-//         database[accountIndex].balance += depositAmount;
-//     } else {
-//         printf("account does not exist");
-//     }
-// }
+    if (accountIndex != -1) {
+        database[accountIndex].balance += depositAmount;
+    } else {
+        printf("account does not exist");
+    }
+}
 
-// void withdrawAmount(struct Account *database, int numAccounts) {
-//     int accountNumber, widthdrawAmount, accountIndex = -1;
-//     printf("Account number: ");
-//     scanf("%d", &accountNumber);
+void withdrawAmount(struct Account *database, int numAccounts) {
+    int accountNumber, widthdrawAmount, accountIndex = -1;
+    printf("Account number: ");
+    scanf("%d", &accountNumber);
     
-//     printf("Widthdraw amount: ");
-//     scanf("%d", &widthdrawAmount);
+    printf("Widthdraw amount: ");
+    scanf("%d", &widthdrawAmount);
 
-//     for (int i = 0; i < numAccounts; i++) {
-//         printf("%d\n", database[i].accountNumber);
-//         if (database[i].accountNumber == accountNumber) {
-//             accountIndex = i;
-//             break;
-//         }
-//     }
+    for (int i = 0; i < numAccounts; i++) {
+        printf("%d\n", database[i].accountNumber);
+        if (database[i].accountNumber == accountNumber) {
+            accountIndex = i;
+            break;
+        }
+    }
 
-//     if (accountIndex != -1) {
-//         database[accountIndex].balance -= widthdrawAmount;
-//     } else {
-//         printf("account does not exist");
-//     }
-// }
+    if (accountIndex != -1) {
+        database[accountIndex].balance -= widthdrawAmount;
+    } else {
+        printf("account does not exist");
+    }
+}
 
 int main () {
     int numAccounts = 0, menuOption;
