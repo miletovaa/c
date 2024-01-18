@@ -311,55 +311,207 @@
 
 // Task 3.2 06:53 - 07:08 
 // 15 MINUTES
-struct Grid {
-    int rows, cols;
+// struct Grid {
+//     int rows, cols;
+// };
+
+// void inputGrid(struct Grid *grid) {
+//     printf("Insert cols: ");
+//     scanf("%d", &grid->cols);
+
+//     printf("Insert rows: ");
+//     scanf("%d", &grid->rows);
+// }
+
+// int getSquaresForSize(struct Grid *grid, int size) {
+//     int number = 0;
+
+//     for (int i = 0; i < grid->rows; i++) {
+//         if (i + size <= grid->rows) {
+//             for (int j = 0; j < grid->cols; j++) {
+//                 if (j + size <= grid->cols) {
+//                     number++;
+//                 }
+//             }
+//         }
+//     }
+
+//     return number;
+// }
+
+// int getSquaresTotal(struct Grid *grid) {
+//     int maxSquareSize;
+//     if (grid->rows > grid->cols) {
+//         maxSquareSize = grid->cols;
+//     } else maxSquareSize = grid->rows;
+
+//     int total = 0;
+//     for (int i = 1; i <= maxSquareSize; i++) {
+//         total += getSquaresForSize(grid, i);
+//     }
+//     return total;
+// }
+
+// int main() {
+//     struct Grid *grid;
+
+//     inputGrid(grid);
+
+//     int total = getSquaresTotal(grid);
+
+//     printf("Total: %d", total);
+
+//     return 0;
+// }
+
+
+#include <string.h>
+#include <stdlib.h>
+
+struct Account {
+    int accountNumber, accountType;
+    char holderName[255];
+    float balance;
 };
 
-void inputGrid(struct Grid *grid) {
-    printf("Insert cols: ");
-    scanf("%d", &grid->cols);
+void addAccount(struct Account **database, int *numAccounts) {
+    (*numAccounts)++;
+    *database = (struct Account *)realloc(*database, *numAccounts * sizeof(struct Account));
 
-    printf("Insert rows: ");
-    scanf("%d", &grid->rows);
+    printf("Enter account number: ");
+    scanf("%d", &(*database)[*numAccounts - 1].accountNumber);
+
+    getchar();
+
+    printf("Enter holder's name: ");
+    char name[255];
+    gets(name);
+    strcpy((*database)[*numAccounts - 1].holderName, name);
+
+    printf("Enter initial balance: ");
+    scanf("%f", &(*database)[*numAccounts - 1].balance);
+
+    printf("Select account type:\n 1 - Current\n 2 - Savings\n 3 - Pension\n 4 - Youth\n");
+    scanf("%d", &(*database)[*numAccounts - 1].accountType);
+};
+
+void displayAccount(struct Account account) {
+    printf("\nAccount Number: %d\n", account.accountNumber);
+    printf("Holder's Name: %s\n", account.holderName);
+    printf("Initial Balance: %.2f\n", account.balance);
+    printf("Account Type: ");
+    switch(account.accountType){
+        case 1:
+            printf("Current");
+            break;
+        case 2:
+            printf("Savings");
+            break;
+        case 3:
+            printf("Pension");
+            break;
+        case 4:
+            printf("Youth");
+            break;        
+    }
 }
 
-int getSquaresForSize(struct Grid *grid, int size) {
-    int number = 0;
+void displayAccountDetails(struct Account *database, int numAccounts) {
+    int accountIndex = -1, accountToDisplay;
 
-    for (int i = 0; i < grid->rows; i++) {
-        if (i + size <= grid->rows) {
-            for (int j = 0; j < grid->cols; j++) {
-                if (j + size <= grid->cols) {
-                    number++;
-                }
-            }
+    printf("Account To Display: ");
+    scanf("%d", &accountToDisplay);
+
+    for (int i = 0; i < numAccounts; i++) {
+        if (database[i].accountNumber == accountToDisplay) {
+            accountIndex = i;
+            break;
         }
     }
 
-    return number;
-}
-
-int getSquaresTotal(struct Grid *grid) {
-    int maxSquareSize;
-    if (grid->rows > grid->cols) {
-        maxSquareSize = grid->cols;
-    } else maxSquareSize = grid->rows;
-
-    int total = 0;
-    for (int i = 1; i <= maxSquareSize; i++) {
-        total += getSquaresForSize(grid, i);
+    if (accountIndex != -1) {
+        displayAccount(database[accountIndex]);
+    } else {
+        printf("account does not exist");
     }
-    return total;
 }
 
-int main() {
-    struct Grid *grid;
+// void depositAmount(struct Account *database, int numAccounts) {
+//     int accountNumber, depositAmount, accountIndex = -1;
+//     printf("Account number: ");
+//     scanf("%d", &accountNumber);
+    
+//     printf("Deposit amount: ");
+//     scanf("%d", &depositAmount);
 
-    inputGrid(grid);
+//     for (int i = 0; i < numAccounts; i++) {
+//         printf("%d\n", database[i].accountNumber);
+//         if (database[i].accountNumber == accountNumber) {
+//             accountIndex = i;
+//             break;
+//         }
+//     }
 
-    int total = getSquaresTotal(grid);
+//     if (accountIndex != -1) {
+//         database[accountIndex].balance += depositAmount;
+//     } else {
+//         printf("account does not exist");
+//     }
+// }
 
-    printf("Total: %d", total);
+// void withdrawAmount(struct Account *database, int numAccounts) {
+//     int accountNumber, widthdrawAmount, accountIndex = -1;
+//     printf("Account number: ");
+//     scanf("%d", &accountNumber);
+    
+//     printf("Widthdraw amount: ");
+//     scanf("%d", &widthdrawAmount);
 
-    return 0;
+//     for (int i = 0; i < numAccounts; i++) {
+//         printf("%d\n", database[i].accountNumber);
+//         if (database[i].accountNumber == accountNumber) {
+//             accountIndex = i;
+//             break;
+//         }
+//     }
+
+//     if (accountIndex != -1) {
+//         database[accountIndex].balance -= widthdrawAmount;
+//     } else {
+//         printf("account does not exist");
+//     }
+// }
+
+int main () {
+    int numAccounts = 0, menuOption;
+    struct Account *database;
+    database = (struct Account *)malloc(sizeof(struct Account));
+
+    printf("Hello! Welcome\n");
+
+    while (1) {
+        printf("\n\nSelect an option:\n 1 - Add account\n 2 - Display account details\n 3 - Deposit\n 4 - Widthdraw\n");
+        scanf("%d", &menuOption);
+
+        switch(menuOption){
+            case 1:
+                addAccount(&database, &numAccounts);
+                break;
+            case 2:
+                displayAccountDetails(database, numAccounts);
+                break;
+            case 3:
+                depositAmount(database, numAccounts);
+                break;
+            case 4:
+                withdrawAmount(database, numAccounts);
+                break;
+            case 5:
+                free(database);
+                return 0;
+            default:
+                printf("Invalid option");
+                break;
+        }
+    }
 }
